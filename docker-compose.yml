@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  database:
+    image: mysql:8.0
+    container_name: mysql
+    user: root
+    ports: 
+      - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - ./data:/var/lib/mysql
+      - ./backup:/var/lib/backup
+    networks:
+      clusternetwork:
+        ipv4_address: 172.30.240.10
+      
+volumes:
+  data:
+  backup:
+
+networks:
+  clusternetwork:
+    name: local
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.30.240.0/24
